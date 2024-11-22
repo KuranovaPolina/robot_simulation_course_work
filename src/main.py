@@ -54,7 +54,7 @@ def control_func_2(model, data):
   l_time = 0.2
   r_time = l_time * math.pi / 2
   wait_time = 3
-  time_part = (step_start - start_time) % (wait_time + 8 * l_time + 4 * r_time)
+  time_part = (step_start - start_time) % (wait_time + 4 * l_time + 4.1 * r_time)
 
   if (time_part) < wait_time:
     data.ctrl = [0, 0, 0.0, 0, 0, 0, 0]
@@ -70,8 +70,8 @@ def control_func_2(model, data):
     data.ctrl = [0, 0, 0.1, -0.9, 0, 0, 0]
   elif (time_part) < (wait_time + 4 * l_time + 2 * r_time):
     data.ctrl = [0, 0, 0.1, 0, 0, 0, 0]
-  elif (time_part) < (wait_time + 4 * l_time + 12 * r_time):
-    data.ctrl = [0, 0, 0.05, -0.2, 0, 0, 0]
+  elif (time_part) < (wait_time + 4 * l_time + 4.1 * r_time):
+    data.ctrl = [0, 0, 0.1, -0.2, 0, 0, 0]
   else:
     data.ctrl = [0, 0, 0, 0, 0, 0, 0]
     # data.ctrl = [0, 0, 0.1, 0, 0, 0, 0]
