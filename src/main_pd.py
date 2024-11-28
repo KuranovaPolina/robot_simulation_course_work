@@ -1,4 +1,4 @@
-from math import sin
+from math import cos, sin
 from random import randint
 from matplotlib.pylab import rand
 import mujoco
@@ -15,36 +15,38 @@ def get_ctrl(ctrl4x4 = 0, turn_acker = 0, turn = 0):
   return [ctrl4x4, turn_acker, turn]
 
 def path_func(time):
-  x_ref = sin(time)
+  x_ref = 0.5 * cos(time) 
+  y_ref = 0.5 * sin(time) 
 
-  return(x_ref)
+  return (x_ref, y_ref)
 
-  # y_ref = 0
+def get_diff(x_ref, x_real, y_ref, y_real):
+  KP_x = 1
+  KP_y = 1
 
-  # return(x_ref, y_ref)
+  x_diff = KP_x * (x_ref - x_real) 
+  y_diff = KP_y * (y_ref - y_real) 
 
-def get_shift(path_x, data_x):
-  KP = 1
-
-  x_shift = KP * (path_x - data_x)
-
-  return [x_shift]
-
-  # y_shift = KP * (path_y - data_y) / 10
-  # y_shift = 0
-
-  # return [x_shift, y_shift]
+  return (x_diff, y_diff)
 
 
 def control_func_pd(model, data):
-  path_x = path_func(time.time() - start_time)
-  data_x = data.body('car').xpos[0]  #x
+  x_ref, y_ref = path_func(time.time() - start_time)
+  x_real = data.body('car').xpos[0]  #x
+  y_real = data.body('car').xpos[1]  #y
 
-  x_shift = get_shift(path_x, data_x)
+  x_diff, y_diff = get_diff(x_ref, x_real, y_ref, y_real)
 
-  ctrl4x4 = x_shift[0]
+  ctrl4x4 = x_diff
 
-  data.ctrl = get_ctrl(ctrl4x4 = ctrl4x4)
+  if y_diff >= 100:
+    turn_acker = 0.99
+  elif y_diff <= -100:
+    turn_acker = -0.99
+  else:
+    turn_acker = y_diff / 100
+
+  data.ctrl = get_ctrl(ctrl4x4 = ctrl4x4, turn_acker = turn_acker)
 
 with mujoco.viewer.launch_passive(model, data) as viewer:  
   mujoco.set_mjcb_control(control_func_pd)
