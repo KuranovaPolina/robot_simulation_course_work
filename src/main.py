@@ -5,7 +5,7 @@ import time
 from lxml import etree # lxml is needed to change .xml models in script
 import math
 
-model = mujoco.MjModel.from_xml_path("../models/project_parallells.xml")
+model = mujoco.MjModel.from_xml_path("../models/model2.xml")
 data = mujoco.MjData(model)
 
 start_time = 0
@@ -76,17 +76,18 @@ def control_func_2(model, data):
     data.ctrl = [0, 0, 0, 0, 0, 0, 0]
     # data.ctrl = [0, 0, 0.1, 0, 0, 0, 0]
 
+def control_func_pd(model, data):
+  pass
+
 with mujoco.viewer.launch_passive(model, data) as viewer:  
   start_time = time.time()
   step_start = start_time
 
-  mujoco.set_mjcb_control(control_func_2)
+  mujoco.set_mjcb_control(control_func_pd)
 
   while viewer.is_running():
     step_start = time.time()
     x = data.body("car").xpos
-
-    # print(step_start - start_time, x)
 
     mujoco.mj_step(model, data)
     viewer.sync()
