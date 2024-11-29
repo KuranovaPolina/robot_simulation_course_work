@@ -18,7 +18,7 @@
   </default>
 
   <worldbody>
-    <geom type="plane" size="3 3 .01" material="grid"/>
+    <geom type="plane" size="30 30 .01" material="grid"/>
     <body name="car" pos="0 0 .03">
       <freejoint/>
       <light name="top light" pos="0 0 2" mode="trackcom" diffuse=".4 .4 .4"/>
@@ -37,7 +37,7 @@
       </body>
 
       <body name="front left" pos=".07 .06 0" zaxis="0 1 0">
-        <joint name="front left" type="hinge" range="-30 30" axis="0 1 0"/>
+        <joint name="front left" damping="1" type="hinge" range="-30 30" axis="0 1 0"/>
 
         <joint name="j3"/>
         <geom class="wheel"/>
@@ -45,7 +45,7 @@
         <site class="decor" size=".025 .006 .0115"/>
       </body>
       <body name="front right " pos=".07 -.06 0" zaxis="0 1 0">
-        <joint name="front right" type="hinge" range="-30 30" axis="0 1 0"/>
+        <joint name="front right" damping="1" type="hinge" range="-30 30" axis="0 1 0"/>
         <joint name="j4"/>
         <geom class="wheel"/>
         <site class="decor" size=".006 .025 .0115"/>
