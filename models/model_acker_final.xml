@@ -44,7 +44,7 @@
         <site class="decor" size=".006 .025 .0115"/>
         <site class="decor" size=".025 .006 .0115"/>
       </body>
-      <body name="front right " pos=".07 -.06 0" zaxis="0 1 0">
+      <body name="front right" pos=".07 -.06 0" zaxis="0 1 0">
         <joint name="front right" damping="1" type="hinge" range="-20 30" axis="0 1 0"/>
         <joint name="j4"/>
         <geom class="wheel"/>
