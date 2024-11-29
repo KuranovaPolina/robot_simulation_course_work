@@ -17,14 +17,14 @@ def get_ctrl(ctrl4x4 = 0, turn_acker = 0, turn = 0):
   return [ctrl4x4, turn_acker, turn]
 
 def path_func(time):
-  # x_ref = 0.5 * cos(time) + 0.5
-  # y_ref = 0.5 * sin(time) - 0.5
+  x_ref = 0.5 * cos(time) + 0.5
+  y_ref = 0.5 * sin(time) - 0.5
 
   # x_ref = cos(time) 
   # y_ref = 0
 
-  x_ref = 0
-  y_ref = cos(time)
+  # x_ref = 0
+  # y_ref = cos(time)
 
   return (x_ref, y_ref)
 
@@ -79,8 +79,16 @@ with mujoco.viewer.launch_passive(model, data) as viewer:
     # print(data.body('car').xpos[0], data.qpos[0], data.body('car').xpos[1], data.qpos[1], data.qvel)
 
 #TODO - change x to angle
-    circle_left_values.append(data.body('front left').xpos[0])
-    circle_right_values.append(data.body('front right').xpos[0])
+    circle_left_values.append(data.joint('front left').qpos[0])
+    circle_right_values.append(data.joint('front right').qpos[0])
+
+    # print(data.qpos)
+
+    # left_joint_index = data.joint('front left')
+    # right_joint_index = data.joint('front right')
+
+    # print(left_joint_index.qpos[0])
+    # print(right_joint_index.qpos[0])
 
     time_values.append(time.time() - start_time)
 
