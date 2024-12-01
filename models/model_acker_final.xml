@@ -22,7 +22,7 @@
     <body name="car" pos="0 0 .03">
       <freejoint/>
       <light name="top light" pos="0 0 2" mode="trackcom" diffuse=".4 .4 .4"/>
-      <geom name="chasis" type="box" size="0.07 0.045 0.02" pos="0 0 0.05" rgba="0.9 0.1 1 0"/>
+      <geom name="chasis" type="box" size="0.07 0.045 0.02" pos="0 0 0.05" rgba="0.9 0.1 1 0.8"/>
       <body name="left wheel" pos="-.07 .06 0" zaxis="0 1 0">
         <joint name="left"/>
         <geom class="wheel"/>
@@ -127,13 +127,13 @@
       <joint joint="front right" coef="0.5"/>
     </fixed>
 
-    <spatial  width=".001" stiffness="10">
+    <spatial  width=".001" stiffness="100">
       <site site="s0"/>
       <site site="s6"/>
     </spatial>
 
 
-    <spatial  width=".001" stiffness="10">
+    <spatial  width=".001" stiffness="100">
       <site site="s5"/>
       <site site="s1"/>
     </spatial>
