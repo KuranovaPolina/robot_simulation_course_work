@@ -37,7 +37,7 @@
       </body>
 
       <body name="front left" pos=".07 .06 0" zaxis="0 1 0">
-        <joint name="front left" damping="1" type="hinge" range="-30 20" axis="0 1 0"/>
+        <joint name="front left" damping="0.8" type="hinge" range="-72.18 54.36" axis="0 1 0"/>
 
         <joint name="j3"/>
         <geom class="wheel"/>
@@ -45,7 +45,7 @@
         <site class="decor" size=".025 .006 .0115"/>
       </body>
       <body name="front right" pos=".07 -.06 0" zaxis="0 1 0">
-        <joint name="front right" damping="1" type="hinge" range="-20 30" axis="0 1 0"/>
+        <joint name="front right" damping="0.8" type="hinge" range="-54.36 72.18" axis="0 1 0"/>
         <joint name="j4"/>
         <geom class="wheel"/>
         <site class="decor" size=".006 .025 .0115"/>
@@ -53,24 +53,31 @@
       </body>
 
 
+      
+        <body name="fixed" pos="0.07 0 0" zaxis="-1 0 0">
+          <geom name="g4" type="box" size="0.001 0.045 0.001" rgba="0 0.5 0.5 1"/>
+          <site name="s0" size="0.003" pos="0 0.045 0"/>
+          <site name="s1" size="0.003" pos="0 -0.045 0"/>
+        </body>
 
-      <body name="fixed" pos="0.07 0 0" zaxis="1 0 0">
-        <geom name="g4" type="box" size="0.001 0.045 0.001" rgba="0 0.5 0.5 1"/>
-        <site name="s0" size="0.003" pos="0 0.045 0"/>
-        <site name="s1" size="0.003" pos="0 -0.045 0"/>
+        <body pos="0.04 0 0 ">
+          <joint name="acker" pos="0 0 0" type="slide" axis="0 1 0" />
+          <geom type="box" size="0.001 0.035 0.001" rgba="1 0.3 0.3 1" />
+          <site name="s5" size="0.003" pos="0 -0.035 0" rgba="1 0.5 0.5 1"/>
+          <site name="s6" size="0.003" pos="0 0.035 0" rgba="1 0.5 0.5 1"/>
+        </body>
 
-     </body>
+        <!-- <body name="fixed_back" pos="-0.07 0 0" zaxis="1 0 0">
+          <geom  type="box" size="0.001 0.045 0.001" rgba="0 0.5 0.5 1"/>
+        </body>
 
-      <body pos="0.02 0 0">
-        <joint name="acker" pos="0 0 0" type="slide" axis="0 1 0" />
-        <geom type="box" size="0.001 0.035 0.001" rgba="1 0.3 0.3 1" />
-        <site name="s5" size="0.003" pos="0 -0.035 0" rgba="1 0.5 0.5 1"/>
-        <site name="s6" size="0.003" pos="0 0.035 0" rgba="1 0.5 0.5 1"/>
+        <body name="os" pos="0 0 0">
+          <geom  type="box" size="0.07 0.001 0.001" rgba="0 0.5 0.5 1"/>
+          <geom  type="box" size="0.001 0.001" fromto="-.07 0 0 0.07 0.045 0" rgba="0 0.5 0.5 1"/>
+          <geom  type="box" size="0.001 0.001" fromto="-.07 0 0 0.07 -0.045 0" rgba="0 0.5 0.5 1"/>
+        </body> -->
 
-
-      </body>
-
-
+      
 
 
 
@@ -112,17 +119,21 @@
     </fixed>
 
 
-    <!--fixed name="turn left wheel">
+    <fixed name="turn left wheel">
       <joint joint="front left" coef="0.5"/>
     </fixed>
 
     <fixed name="turn right wheel">
       <joint joint="front right" coef="0.5"/>
-    </fixed-->
+    </fixed>
 
-    <spatial  width=".001" stiffness="1000">
+    <spatial  width=".001" stiffness="10">
       <site site="s0"/>
       <site site="s6"/>
+    </spatial>
+
+
+    <spatial  width=".001" stiffness="10">
       <site site="s5"/>
       <site site="s1"/>
     </spatial>
@@ -134,12 +145,12 @@
     <motor name="run_back_wheels" tendon="backwheels" ctrlrange="-100 100"/-->
     <motor name="4x4" tendon="4x4" ctrlrange="-100 100"/>
 
-    <motor name="turn_acker" tendon="turn_acker" ctrlrange="-1 1"/>
-    <motor name="turn" tendon="turn" ctrlrange="-1 1"/>
+    <motor name="turn_acker" tendon="turn_acker"  ctrlrange="-100 100"/>
+    <!-- <motor name="turn" tendon="turn" ctrlrange="-3.14 3.14"/> -->
 
-    <motor name="turn left wheel" tendon="turn left wheel" ctrlrange="-1 1"/>
+    <motor name="turn left wheel" tendon="turn left wheel"  ctrlrange="-100 100"/>
     
-    <motor name="turn right wheel" tendon="turn right wheel" ctrlrange="-1 1"/>
+    <motor name="turn right wheel" tendon="turn right wheel"  ctrlrange="-100 100"/>
 
 
 
