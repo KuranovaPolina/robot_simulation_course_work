@@ -5,10 +5,10 @@ import json
 x_values = []
 y_values = []
 
-with open("/Users/polinakuranova/uni/robot_simulation/robot_simulation_course_work/robot_simulation_course_work/src/x_values.txt", 'r') as fr:
+with open("x_values.txt", 'r') as fr:
     x_values = json.load(fr)
 
-with open("/Users/polinakuranova/uni/robot_simulation/robot_simulation_course_work/robot_simulation_course_work/src/y_values.txt", 'r') as fr:
+with open("y_values.txt", 'r') as fr:
     y_values = json.load(fr)
 
 # print(data_time[0])
