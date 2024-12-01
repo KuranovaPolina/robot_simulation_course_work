@@ -104,7 +104,7 @@
     <spatial  width=".001" stiffness="100">
       <site site="s5"/>
       <site site="s1"/>
-
+    </spatial>
   </tendon>
   <actuator>
     <!--motor name="run_front_wheels" tendon="frontwheels" ctrlrange="-100 100"/>

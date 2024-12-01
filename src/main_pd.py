@@ -1,4 +1,4 @@
-from math import cos, sin
+from math import atan, cos, pi, sin
 from random import randint
 from matplotlib.pylab import rand
 import mujoco
@@ -8,7 +8,7 @@ import numpy as np
 
 import json
 
-model = mujoco.MjModel.from_xml_path("../models/model_acker_final.xml")
+model = mujoco.MjModel.from_xml_path("/Users/polinakuranova/uni/robot_simulation/robot_simulation_course_work/robot_simulation_course_work/models/model_acker_final.xml")
 data = mujoco.MjData(model)
 
 start_time = time.time()
@@ -17,49 +17,32 @@ def get_ctrl(ctrl4x4 = 0, turn_acker = 0, turn = 0):
   return [ctrl4x4, turn_acker, 0, 0]
 
 def path_func(time):
-  x_ref = 0.5 * cos(time) + 0.5
-  y_ref = 0.5 * sin(time) - 0.5
+  X = 0.045 # T
+  Y = 0.07  # L
+  R = 0.5
 
-  # x_ref = cos(time) 
-  # y_ref = 0
+  left_angle = atan(Y / (R - X / 2))
+  right_angle = atan(Y / (R + X / 2))
+  ctrl4x4 = 0.1
 
-  # x_ref = 0
-  # y_ref = cos(time)
+  return (left_angle, right_angle, ctrl4x4)
 
-  return (x_ref, y_ref)
+def get_diff(data, left_angle_ref, right_angle_ref, ctrl4x4_ref):
+  left_angle_diff = 1 * (left_angle_ref - data.joint('front left').qpos[0])
+  right_angle_diff = 1 * (right_angle_ref - data.joint('front right').qpos[0])
+  ctrl4x4_diff = 1 * (ctrl4x4_ref - data.ctrl[0])
 
-def get_diff(x_ref, x_real, y_ref, y_real, v_x_real, v_y_real):
-  KP_x = 1
-  KP_y = 1
-  KP_v_x = 1
-  KP_v_y = 1
-
-  x_diff = KP_x * (x_ref - x_real) + KP_v_x * (0 - v_x_real)
-  y_diff = KP_y * (y_ref - y_real) + KP_v_y * (0 - v_y_real)
-
-  return (x_diff, y_diff)
+  return (left_angle_diff, right_angle_diff, ctrl4x4_diff)
 
 
 def control_func_pd(model, data):
-  x_ref, y_ref = path_func(time.time() - start_time)
-  x_real = data.body('car').xpos[0]  #x
-  y_real = data.body('car').xpos[1]  #y
-  v_x_real = data.qvel[0]  #x
-  v_y_real = data.qvel[1]  #y
+  left_angle, right_angle, ctrl4x4 = path_func(time.time() - start_time)
 
-  x_diff, y_diff = get_diff(x_ref, x_real, y_ref, y_real, v_x_real, v_y_real)
+  left_angle_diff, right_angle_diff, ctrl4x4_diff = get_diff(data, left_angle, right_angle, ctrl4x4)
 
-  ctrl4x4 = x_diff
-
-  if y_diff >= 1:
-    turn_acker = 0.99
-  elif y_diff <= -1:
-    turn_acker = -0.99
-  else:  
-    turn_acker = y_diff
-
-  data.ctrl = get_ctrl(ctrl4x4 = ctrl4x4 / 100, turn_acker = turn_acker)
-
+  data.joint('front left').qpos[0] += left_angle_diff
+  data.joint('front right').qpos[0] += right_angle_diff
+  data.ctrl[0] += ctrl4x4_diff
 
 x_values = [ ]
 y_values = [ ]
@@ -72,23 +55,12 @@ time_values = [ ]
 with mujoco.viewer.launch_passive(model, data) as viewer:  
   mujoco.set_mjcb_control(control_func_pd)
 
-  while viewer.is_running() and (time.time() - start_time) < 50:
+  while viewer.is_running() and (time.time() - start_time) < 120:
     x_values.append(data.body('car').xpos[0])
     y_values.append(data.body('car').xpos[1])
 
-    # print(data.body('car').xpos[0], data.qpos[0], data.body('car').xpos[1], data.qpos[1], data.qvel)
-
-#TODO - change x to angle
     circle_left_values.append(data.joint('front left').qpos[0])
     circle_right_values.append(data.joint('front right').qpos[0])
-
-    # print(data.qpos)
-
-    # left_joint_index = data.joint('front left')
-    # right_joint_index = data.joint('front right')
-
-    # print(left_joint_index.qpos[0])
-    # print(right_joint_index.qpos[0])
 
     time_values.append(time.time() - start_time)
 
