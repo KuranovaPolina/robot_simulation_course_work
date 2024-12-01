@@ -14,7 +14,7 @@ data = mujoco.MjData(model)
 start_time = time.time()
 
 def get_ctrl(ctrl4x4 = 0, turn_acker = 0, turn = 0):
-  return [ctrl4x4, turn_acker, turn, 0, 0]
+  return [ctrl4x4, turn_acker, 0, 0]
 
 def path_func(time):
   x_ref = 0.5 * cos(time) + 0.5
