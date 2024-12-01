@@ -15,10 +15,9 @@ with open("circle_right_values.txt", 'r') as fr:
 with open("time_values.txt", 'r') as fr:
     time_values = json.load(fr)
 
-# print(data_time[0])
-
-plt.plot(time_values, circle_left_values)
-plt.plot(time_values, circle_right_values)
+plt.plot(time_values, circle_left_values, label="left circle")
+plt.plot(time_values, circle_right_values, label="right circle")
+plt.legend(loc='best')
 plt.title("angle(t)")
 plt.ylabel("angle")
 plt.xlabel("t")

@@ -14,12 +14,15 @@ data = mujoco.MjData(model)
 start_time = time.time()
 
 def path_func(time):
-  X = 0.045 # T
-  Y = 0.07  # L
+  X = 0.09 # T
+  Y = 0.14 # L
   R = 1
 
   left_angle = atan(Y / (R - X / 2))
   right_angle = atan(Y / (R + X / 2))
+
+  # left_angle = 0
+  # right_angle = 0
 
   return (left_angle, right_angle)
 
@@ -51,7 +54,7 @@ with mujoco.viewer.launch_passive(model, data) as viewer:
 
   data.ctrl[0] = 0.1
 
-  while viewer.is_running() and (time.time() - start_time) < 120:
+  while viewer.is_running() and (time.time() - start_time) < 10:
     x_values.append(data.body('car').xpos[0])
     y_values.append(data.body('car').xpos[1])
 
